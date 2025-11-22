@@ -32,10 +32,7 @@
 
         <h3 class="text-white mb-4">Welcome to Student Portal</h3>
 
-        <div class="d-flex mb-3">
-            <button class="btn btn-primary flex-fill">LOGIN</button>
-            <button class="btn btn-outline-light flex-fill ms-2">Sign Up</button>
-        </div>
+    
 
         <form method="POST" action="{{ route('student.login') }}">
             @csrf
