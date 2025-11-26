@@ -226,7 +226,7 @@
                 <h5 class="mb-3">Recent Students</h5>
                 <div class="list-group">
                     <div class="list-group-item border-0 d-flex justify-content-between align-items-center">
-                        Ahmed Ahmed
+                        Ahmed ali
                         <small class="text-muted">01-02-2023</small>
                     </div>
                     <div class="list-group-item border-0 d-flex justify-content-between align-items-center">
