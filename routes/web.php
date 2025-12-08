@@ -25,3 +25,11 @@ Route::get('/manager-students', function () {
 Route::get('/manager-modules', function () {
     return view('manager.modules');
 })->name('manager.modules');
+
+
+
+Route::get('/student-modules', function () {
+    return view('student.modules');
+})->name('student.modules');
+
+

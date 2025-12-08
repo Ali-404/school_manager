@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manager Portal - Login</title>
+    <title>Manager Portal - Login & Sign Up</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
@@ -25,6 +25,19 @@
             width: 80px;
             margin-bottom: 10px;
         }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .btn-tab.active {
+            background: #0d6efd !important;
+            border-color: #0d6efd !important;
+        }
     </style>
 </head>
 <body class="d-flex justify-content-center align-items-center vh-100">
@@ -32,22 +45,97 @@
     <div class="login-card text-center">
         <img src="/logo.png" class="header-logo" alt="logo">
 
-        <h3 class="text-white mb-4">Welcome to Manager Portal</h3>
+        <h3 class="text-white mb-4" id="formTitle">Welcome to Manager Portal</h3>
 
-        <div class="d-flex mb-3">
-            <button class="btn btn-primary flex-fill">LOGIN</button>
-            <button class="btn btn-outline-light flex-fill ms-2">Sign Up</button>
+        <div class="d-flex mb-3" id="tabButtons">
+            <button class="btn btn-primary flex-fill btn-tab active" data-tab="login">LOGIN</button>
+            <button class="btn btn-outline-light flex-fill ms-2 btn-tab" data-tab="signup">Sign Up</button>
         </div>
 
-        <form>
-            <input type="email" class="form-control mb-3" placeholder="Enter your email">
-            <input type="password" class="form-control mb-3" placeholder="Enter your password">
+        <!-- Login Form -->
+        <form id="loginForm" class="form-section active">
+            <input type="email" class="form-control mb-3" placeholder="Enter your email" required>
+            <input type="password" class="form-control mb-3" placeholder="Enter your password" required>
             <a href="#" class="text-light small d-block mb-3">Forgot password?</a>
-            <button class="btn btn-primary w-100">LOGIN</button>
+            <button type="submit" class="btn btn-primary w-100">LOGIN</button>
         </form>
+
+        <!-- Sign Up Form -->
+        <form id="signupForm" class="form-section">
+            <input type="email" class="form-control mb-3" placeholder="Enter your email" required>
+            <input type="password" class="form-control mb-3" placeholder="Enter your password" required>
+            <input type="password" class="form-control mb-3" placeholder="Confirm your password" required>
+            <button type="button" class="btn btn-primary w-100" id="createAccountBtn">CREATE ACCOUNT</button>
+        </form>
+
+        <!-- Finish Creation Form -->
+        <form id="finishCreationForm" class="form-section">
+            <input type="text" class="form-control mb-3" placeholder="Manager Name" required>
+            <input type="text" class="form-control mb-3" placeholder="School Name" required>
+            <button type="button" class="btn btn-success w-100" id="finishCreationBtn">Finish Creation</button>
+        </form>
+
         <p class="text-white mt-3">Not a manager?</p>
         <a href="{{ route('student.login') }}" class="btn btn-warning w-100">STUDENT PORTAL</a>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.btn-tab');
+            const forms = document.querySelectorAll('.form-section');
+            const formTitle = document.getElementById('formTitle');
+            const tabButtons = document.getElementById('tabButtons');
+            const createAccountBtn = document.getElementById('createAccountBtn');
+            const finishCreationBtn = document.getElementById('finishCreationBtn');
+
+            // Tab switching functionality
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update active form
+                    forms.forEach(form => {
+                        form.classList.remove('active');
+                        if (form.id === targetTab + 'Form') {
+                            form.classList.add('active');
+                        }
+                    });
+
+                    // Show tab buttons and reset title
+                    tabButtons.style.display = 'flex';
+                    formTitle.textContent = 'Welcome to Manager Portal';
+                });
+            });
+
+            // Create Account button - move to finish creation
+            createAccountBtn.addEventListener('click', function() {
+                forms.forEach(form => form.classList.remove('active'));
+                document.getElementById('finishCreationForm').classList.add('active');
+                
+                // Hide tab buttons and update title
+                tabButtons.style.display = 'none';
+                formTitle.textContent = 'Complete Your Profile';
+            });
+
+            // Finish Creation button - complete the process
+            finishCreationBtn.addEventListener('click', function() {
+                // Here you can add the logic to submit all data to backend
+                const managerName = document.querySelector('#finishCreationForm input[placeholder="Manager Name"]').value;
+                const schoolName = document.querySelector('#finishCreationForm input[placeholder="School Name"]').value;
+                
+                if (managerName && schoolName) {
+                    alert('Account created successfully! Manager: ' + managerName + ', School: ' + schoolName);
+                    // Redirect to dashboard or login page
+                    // window.location.href = '/manager-dashboard';
+                } else {
+                    alert('Please fill in all fields');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
