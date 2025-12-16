@@ -20,6 +20,7 @@
     <div class="alert alert-primary m-2">
         test
     </div>
+    @include('partials.toasts')
 </body>
 
 </html>

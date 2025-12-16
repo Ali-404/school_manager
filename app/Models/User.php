@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'manager_id',
     ];
 
     /**
@@ -44,5 +46,29 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the manager that owns this student
+     */
+    public function manager()
+    {
+        return $this->belongsTo(User::class, 'manager_id');
+    }
+
+    /**
+     * Get all students for this manager
+     */
+    public function students()
+    {
+        return $this->hasMany(User::class, 'manager_id')->where('role', 'student');
+    }
+
+    /**
+     * Get all modules for this manager
+     */
+    public function modules()
+    {
+        return $this->hasMany(Module::class, 'manager_id');
     }
 }
