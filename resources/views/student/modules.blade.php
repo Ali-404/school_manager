@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
             padding: 0;
             min-height: 100vh;
         }
+
         .sidebar {
             background: #2c3e50;
             color: white;
@@ -22,36 +24,41 @@
             padding: 20px;
             left: 0;
         }
+
         .main-content {
             margin-left: 250px;
             padding: 20px;
             min-height: 100vh;
         }
+
         .navbar {
             background: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 15px 30px;
         }
+
         .content-card {
             background: white;
             border-radius: 10px;
             padding: 25px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
+
         .module-card {
             background: white;
             border-radius: 10px;
             padding: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-bottom: 15px;
-            border-left: 4px solid #3498db;
             transition: all 0.3s ease;
         }
+
         .module-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
+
         .sidebar a.nav-item {
             display: block;
             padding: 12px 15px;
@@ -59,18 +66,17 @@
             margin-bottom: 5px;
             color: white;
             text-decoration: none;
-            transition: background-color 0.3s ease;
         }
-        .sidebar a.nav-item:hover {
-            background: #34495e;
-        }
+
         .sidebar a.nav-item.active {
             background: #3498db;
         }
+
         .logo {
             width: 40px;
             margin-right: 10px;
         }
+
         .btn-logout {
             background: #dc3545;
             color: white;
@@ -79,15 +85,17 @@
             border-radius: 6px;
             font-size: 0.9rem;
         }
+
         .user-info {
             background: #e9ecef;
             padding: 8px 15px;
             border-radius: 20px;
             font-weight: 500;
         }
+
         .btn-view {
-            background: #17a2b8;
-            color: white;
+            background: rgba(0, 0, 0, 0.08);
+            color: inherit;
             border: none;
             padding: 8px 15px;
             border-radius: 6px;
@@ -96,17 +104,15 @@
             align-items: center;
             gap: 5px;
         }
-        .btn-view:hover {
-            background: #138496;
-            transform: translateY(-1px);
-        }
+
         .course-content {
-            background: #f8f9fa;
+            background: rgba(255, 255, 255, 0.6);
             border-radius: 8px;
             padding: 15px;
             margin-top: 15px;
             display: none;
         }
+
         .course-item {
             padding: 10px;
             border-bottom: 1px solid #dee2e6;
@@ -114,158 +120,109 @@
             justify-content: between;
             align-items: center;
         }
-        .course-item:last-child {
-            border-bottom: none;
-        }
     </style>
 </head>
+
 <body>
 
-<!-- Sidebar -->
-<div class="sidebar">
-    <div class="d-flex align-items-center mb-4">
-        <img src="/logo.png" class="logo" alt="logo">
-        <h5 class="mb-0">Student Portal</h5>
-    </div>
-    
-    <a href="{{ route('student.modules') }}" class="nav-item active">📚 My Modules</a>
-</div>
+    <div class="sidebar">
+        <div class="d-flex align-items-center mb-4">
+            <img src="/logo.png" class="logo" alt="logo">
+            <h5 class="mb-0">Student Portal</h5>
+        </div>
 
-<!-- Main Content -->
-<div class="main-content">
-    <!-- Top Bar -->
-    <div class="navbar d-flex justify-content-between align-items-center">
-        <div>
-            <h3 class="mb-0">My Modules</h3>
-            <small class="text-muted">{{ date('F d, Y') }}</small>
-        </div>
-        <div class="d-flex align-items-center">
-            <span class="user-info me-3">Student Name</span>
-            <a href="{{ route('student.login') }}" class="btn btn-logout">🚪 Logout</a>
-        </div>
+        <a href="{{ route('student.modules') }}" class="nav-item active">📚 My Modules</a>
     </div>
 
-    <!-- Modules Content -->
-    <div class="content-card mt-4">
-        <h5 class="mb-4">Available Modules</h5>
+    <div class="main-content">
+        <div class="navbar d-flex justify-content-between align-items-center">
+            <div>
+                <h3 class="mb-0">My Modules</h3>
+                <small class="text-muted">{{ date('F d, Y') }}</small>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="user-info me-3">Student Name</span>
+                <form method="POST" action="{{ route('logout') }}" style="display:inline">
+                    @csrf
+                    <button type="submit" class="btn btn-logout">🚪 Logout</button>
+                </form>
+            </div>
+        </div>
 
-        <!-- Module 1 -->
-        <div class="module-card">
-            <div class="d-flex justify-content-between align-items-start">
-                <div class="flex-grow-1">
-                    <h4 class="text-primary mb-3">FRANCAIS V</h4>
-                    
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h6 class="fw-bold">Made/Set</h6>
-                            <ul class="list-unstyled">
-                                <li class="text-muted">Cover 1</li>
-                                <li class="text-muted">Cover 1</li>
-                                <li class="text-muted">Cover 1</li>
-                            </ul>
+        <div class="mt-4">
+            <h5 class="mb-4">Available Modules</h5>
+
+            <div class="modules-grid">
+                @forelse($modules as $module)
+                    @php
+                        $bg = $module->color ?? '#f6f8fa';
+                        $hex = ltrim($bg, '#');
+                        $r = hexdec(substr($hex, 0, 2));
+                        $g = hexdec(substr($hex, 2, 2));
+                        $b = hexdec(substr($hex, 4, 2));
+                        $luminance = (0.299 * $r + 0.587 * $g + 0.114 * $b) / 255;
+                        $textColor = $luminance > 0.6 ? '#000' : '#fff';
+                    @endphp
+
+                    <div class="module-card" style="background: {{ $bg }}22;">
+                        <div class="module-left-pill" style="background:{{ $bg }};">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 2C8.13 2 5 5.13 5 9V15C5 18.87 8.13 22 12 22C15.87 22 19 18.87 19 15V9C19 5.13 15.87 2 12 2Z"
+                                    fill="{{ $textColor }}" />
+                            </svg>
                         </div>
-                        
-                        <div class="col-md-6">
-                            <h6 class="fw-bold">New Age:</h6>
-                            <ul class="list-unstyled">
-                                <li class="text-muted">2006</li>
-                                <li class="text-muted">2006</li>
-                                <li class="text-muted">2006</li>
-                            </ul>
+                        <div class="module-date">{{ $module->created_at->format('M d, Y') }}</div>
+                        <div class="module-title">{{ strtoupper($module->name) }}</div>
+                        <div class="module-code" style="background:{{ $bg }};color:{{ $textColor }}">{{ $module->code }}
+                        </div>
+
+                        <div style="margin-top:12px;">
+                            <span class="stat-chip"><strong style="color:#dc3545">50</strong><br><small
+                                    style="color:var(--muted)">Hours</small></span>
+                            <span class="stat-chip"><strong style="color:#0d6efd">10</strong><br><small
+                                    style="color:var(--muted)">Assignments</small></span>
+                        </div>
+
+                        @if($module->picture)
+                            <div style="margin-top:12px;">
+                                <img src="{{ asset('storage/' . $module->picture) }}" alt="{{ $module->name }}"
+                                    style="width:100%;height:120px;object-fit:cover;border-radius:8px;">
+                            </div>
+                        @endif
+
+                        <div class="action-group">
+                            <a href="{{ route('student.modules.attachments', $module) }}" class="btn-outline-open">Open</a>
                         </div>
                     </div>
-                </div>
-                <button class="btn btn-view view-course-btn" data-module="francais">
-                    👁️ View Course
-                </button>
+                @empty
+                    <div class="col-12 text-center text-muted">No modules available.</div>
+                @endforelse
             </div>
-            
-            <!-- Course Content (Hidden by default) -->
-            <div class="course-content" id="francais-course">
-                <h6 class="fw-bold mb-3">Course Materials:</h6>
-                <div class="course-item">
-                    <span>📄 Introduction to French Literature</span>
-                    <small class="text-muted">PDF - 2.3MB</small>
-                </div>
-                <div class="course-item">
-                    <span>🎥 Grammar Lesson Video</span>
-                    <small class="text-muted">MP4 - 15:30</small>
-                </div>
-                <div class="course-item">
-                    <span>📝 Assignment 1</span>
-                    <small class="text-muted">Due: 2024-01-15</small>
-                </div>
-            </div>
-        </div>
 
-        <!-- Module 2 -->
-        <div class="module-card">
-            <div class="d-flex justify-content-between align-items-start">
-                <div class="flex-grow-1">
-                    <h5 class="text-primary">MATHEMATICS</h5>
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <strong>Made/Set:</strong>
-                            <div class="text-muted">Algebra Basics</div>
-                        </div>
-                        <div class="col-md-6">
-                            <strong>New Age:</strong>
-                            <div class="text-muted">2023</div>
-                        </div>
-                    </div>
-                </div>
-                <button class="btn btn-view view-course-btn" data-module="mathematics">
-                    👁️ View Course
-                </button>
-            </div>
-            
-            <!-- Course Content (Hidden by default) -->
-            <div class="course-content" id="mathematics-course">
-                <h6 class="fw-bold mb-3">Course Materials:</h6>
-                <div class="course-item">
-                    <span>📄 Algebra Fundamentals</span>
-                    <small class="text-muted">PDF - 1.8MB</small>
-                </div>
-                <div class="course-item">
-                    <span>🎥 Equation Solving Tutorial</span>
-                    <small class="text-muted">MP4 - 22:15</small>
-                </div>
-                <div class="course-item">
-                    <span>📝 Weekly Quiz</span>
-                    <small class="text-muted">Due: 2024-01-20</small>
-                </div>
-            </div>
         </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // View Course functionality
-    document.querySelectorAll('.view-course-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const moduleId = this.getAttribute('data-module');
-            const courseContent = document.getElementById(moduleId + '-course');
-            
-            // Toggle course content visibility
-            if (courseContent.style.display === 'block') {
-                courseContent.style.display = 'none';
-                this.innerHTML = '👁️ View Course';
-            } else {
-                // Hide all other course contents
-                document.querySelectorAll('.course-content').forEach(content => {
-                    content.style.display = 'none';
-                });
-                // Reset all buttons
-                document.querySelectorAll('.view-course-btn').forEach(btn => {
-                    btn.innerHTML = '👁️ View Course';
-                });
-                // Show current course content
-                courseContent.style.display = 'block';
-                this.innerHTML = '👁️ Hide Course';
-            }
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelectorAll('.btn-view').forEach((btn, idx) => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const moduleCard = this.closest('.module-card');
+                const course = moduleCard.querySelector('.course-content');
+                if (course.style.display === 'block') {
+                    course.style.display = 'none';
+                    this.innerHTML = '👁️ View Course';
+                } else {
+                    document.querySelectorAll('.course-content').forEach(c => c.style.display = 'none');
+                    document.querySelectorAll('.btn-view').forEach(b => b.innerHTML = '👁️ View Course');
+                    course.style.display = 'block';
+                    this.innerHTML = '👁️ Hide Course';
+                }
+            });
         });
-    });
-</script>
+    </script>
+    @include('partials.toasts')
 </body>
+
 </html>

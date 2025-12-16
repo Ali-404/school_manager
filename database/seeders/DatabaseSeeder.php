@@ -15,11 +15,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Create or update a manager and a student for testing (idempotent)
+        $manager = User::updateOrCreate(
+            ['email' => 'manager@example.com'],
+            [
+                'name' => 'Manager One',
+                'password' => bcrypt('secret'),
+                'role' => 'manager',
+            ]
+        );
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'student@example.com'],
+            [
+                'name' => 'Student One',
+                'password' => bcrypt('student123'),
+                'role' => 'student',
+                'manager_id' => $manager->id,
+            ]
+        );
+
+        // Seed modules
+        // $this->call(ModuleSeeder::class);
     }
 }

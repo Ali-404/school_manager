@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,6 +41,7 @@
         }
     </style>
 </head>
+
 <body class="d-flex justify-content-center align-items-center vh-100">
 
     <div class="login-card text-center">
@@ -53,26 +55,43 @@
         </div>
 
         <!-- Login Form -->
-        <form id="loginForm" class="form-section active">
-            <input type="email" class="form-control mb-3" placeholder="Enter your email" required>
-            <input type="password" class="form-control mb-3" placeholder="Enter your password" required>
+        <form id="loginForm" class="form-section active" method="POST" action="/login">
+            @csrf
+
+            @if($errors->any())
+                <div class="alert alert-danger text-start">{{ $errors->first() }}</div>
+            @endif
+
+            <input name="email" type="email" class="form-control mb-3" value="{{ old('email') }}"
+                placeholder="Enter your email" required>
+            <input name="password" type="password" class="form-control mb-3" placeholder="Enter your password" required>
             <a href="#" class="text-light small d-block mb-3">Forgot password?</a>
             <button type="submit" class="btn btn-primary w-100">LOGIN</button>
         </form>
 
         <!-- Sign Up Form -->
-        <form id="signupForm" class="form-section">
-            <input type="email" class="form-control mb-3" placeholder="Enter your email" required>
-            <input type="password" class="form-control mb-3" placeholder="Enter your password" required>
-            <input type="password" class="form-control mb-3" placeholder="Confirm your password" required>
-            <button type="button" class="btn btn-primary w-100" id="createAccountBtn">CREATE ACCOUNT</button>
-        </form>
+        <form id="signupForm" class="form-section" method="POST" action="{{ route('register') }}">
+            @csrf
 
-        <!-- Finish Creation Form -->
-        <form id="finishCreationForm" class="form-section">
-            <input type="text" class="form-control mb-3" placeholder="Manager Name" required>
-            <input type="text" class="form-control mb-3" placeholder="School Name" required>
-            <button type="button" class="btn btn-success w-100" id="finishCreationBtn">Finish Creation</button>
+            @if($errors->any())
+                <div class="alert alert-danger text-start">
+                    <ul class="mb-0">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if(session('success'))
+                <div class="alert alert-success text-start">{{ session('success') }}</div>
+            @endif
+
+            <input name="name" type="text" class="form-control mb-3" value="{{ old('name') }}" placeholder="Enter your name" required>
+            <input name="email" type="email" class="form-control mb-3" value="{{ old('email') }}" placeholder="Enter your email" required>
+            <input name="password" type="password" class="form-control mb-3" placeholder="Enter your password" required>
+            <input name="password_confirmation" type="password" class="form-control mb-3" placeholder="Confirm your password" required>
+            <button type="submit" class="btn btn-primary w-100">CREATE ACCOUNT</button>
         </form>
 
         <p class="text-white mt-3">Not a manager?</p>
@@ -80,23 +99,21 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const tabs = document.querySelectorAll('.btn-tab');
             const forms = document.querySelectorAll('.form-section');
             const formTitle = document.getElementById('formTitle');
             const tabButtons = document.getElementById('tabButtons');
-            const createAccountBtn = document.getElementById('createAccountBtn');
-            const finishCreationBtn = document.getElementById('finishCreationBtn');
 
             // Tab switching functionality
             tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
+                tab.addEventListener('click', function () {
                     const targetTab = this.getAttribute('data-tab');
-                    
+
                     // Update active tab
                     tabs.forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
-                    
+
                     // Update active form
                     forms.forEach(form => {
                         form.classList.remove('active');
@@ -110,32 +127,9 @@
                     formTitle.textContent = 'Welcome to Manager Portal';
                 });
             });
-
-            // Create Account button - move to finish creation
-            createAccountBtn.addEventListener('click', function() {
-                forms.forEach(form => form.classList.remove('active'));
-                document.getElementById('finishCreationForm').classList.add('active');
-                
-                // Hide tab buttons and update title
-                tabButtons.style.display = 'none';
-                formTitle.textContent = 'Complete Your Profile';
-            });
-
-            // Finish Creation button - complete the process
-            finishCreationBtn.addEventListener('click', function() {
-                // Here you can add the logic to submit all data to backend
-                const managerName = document.querySelector('#finishCreationForm input[placeholder="Manager Name"]').value;
-                const schoolName = document.querySelector('#finishCreationForm input[placeholder="School Name"]').value;
-                
-                if (managerName && schoolName) {
-                    alert('Account created successfully! Manager: ' + managerName + ', School: ' + schoolName);
-                    // Redirect to dashboard or login page
-                    // window.location.href = '/manager-dashboard';
-                } else {
-                    alert('Please fill in all fields');
-                }
-            });
         });
     </script>
+    @include('partials.toasts')
 </body>
+
 </html>
