@@ -6,23 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manager Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
+            background-color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
             min-height: 100vh;
         }
 
         .sidebar {
-            background: #2c3e50;
-            color: white;
+            background: #ffffff;
+            color: #2d3748;
             min-height: 100vh;
             position: fixed;
             width: 250px;
             padding: 20px;
             left: 0;
+            border-right: 2px dotted #cbd5e0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
         }
 
         .main-content {
@@ -33,49 +42,111 @@
 
         .navbar {
             background: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 15px 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            padding: 20px 30px;
+            margin-bottom: 30px;
         }
 
         .stat-card {
             background: white;
-            border-radius: 10px;
-            padding: 25px;
+            border-radius: 20px;
+            padding: 30px;
             text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
             margin-bottom: 20px;
             height: 100%;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #e2e8f0;
         }
 
-        .add-student-card {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            text-align: center;
-            height: 100%;
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .stat-card .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+            color: white;
+        }
+
+        .stat-card:nth-child(1) .stat-icon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .stat-card:nth-child(2) .stat-icon {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .stat-card:nth-child(3) .stat-icon {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
 
         .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #2c3e50;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #2d3748;
             margin-bottom: 10px;
         }
 
         .stat-label {
-            color: #7f8c8d;
+            color: #718096;
             font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .add-student-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+            text-align: center;
+            height: 100%;
+            border: 1px solid #e2e8f0;
+            transition: all 0.4s ease;
+        }
+
+        .add-student-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .add-student-card .add-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+            color: white;
         }
 
         .content-card {
             background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
             margin-bottom: 20px;
             height: 100%;
+            border: 1px solid #e2e8f0;
+        }
+
+        .content-card h5 {
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
         }
 
         .sidebar a.nav-item {
@@ -83,17 +154,22 @@
             padding: 12px 15px;
             border-radius: 5px;
             margin-bottom: 5px;
-            color: white;
+            color: #4a5568;
             text-decoration: none;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            border: 1px dotted transparent;
         }
 
         .sidebar a.nav-item:hover {
-            background: #34495e;
+            background: #f7fafc;
+            color: #2d3748;
+            border-color: #cbd5e0;
         }
 
         .sidebar a.nav-item.active {
-            background: #3498db;
+            background: #edf2f7;
+            color: #2d3748;
+            border: 1px dotted #3498db;
         }
 
         .logo {
@@ -102,39 +178,75 @@
         }
 
         .btn-add {
-            background: #28a745;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
+            padding: 14px 28px;
+            border-radius: 12px;
             font-size: 1rem;
-            font-weight: 500;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
         }
 
         .btn-add:hover {
-            background: #218838;
             transform: translateY(-2px);
-            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
         }
 
         .btn-logout {
-            background: #dc3545;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
             border: none;
-            padding: 8px 20px;
-            border-radius: 6px;
+            padding: 10px 20px;
+            border-radius: 25px;
             font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
         }
 
         .btn-logout:hover {
-            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
         }
 
         .user-info {
-            background: #e9ecef;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: 500;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .list-group-item {
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .list-group-item:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .btn-outline-primary {
+            border-radius: 12px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
         }
 
         .drag-drop-area {
@@ -187,12 +299,18 @@
                 <small class="text-muted">{{ date('F d, Y') }}</small>
             </div>
             <div class="d-flex align-items-center">
-                <span class="user-info me-3">{{ auth()->user()->name ?? 'User' }}</span>
+                <span class="user-info me-3">
+                    <i class="fas fa-user"></i> {{ auth()->user()->name ?? 'User' }}
+                </span>
                 <button class="btn btn-outline-secondary btn-sm me-2" data-bs-toggle="modal"
-                    data-bs-target="#changePasswordModal">Change Password</button>
+                    data-bs-target="#changePasswordModal" style="border-radius: 12px; font-weight: 600;">
+                    <i class="fas fa-key"></i> Change Password
+                </button>
                 <form method="POST" action="{{ route('logout') }}" style="display:inline">
                     @csrf
-                    <button type="submit" class="btn btn-logout">🚪 Logout</button>
+                    <button type="submit" class="btn btn-logout">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
                 </form>
             </div>
         </div>
@@ -201,28 +319,41 @@
         <div class="row mt-4">
             <div class="col-md-3">
                 <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
                     <div class="stat-number">{{ $modulesCount ?? 0 }}</div>
                     <div class="stat-label">Total Modules</div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
                     <div class="stat-number">{{ $studentsCount ?? 0 }}</div>
                     <div class="stat-label">Total Students</div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-paperclip"></i>
+                    </div>
                     <div class="stat-number">{{ $attachmentsCount ?? 0 }}</div>
                     <div class="stat-label">Total Attachments</div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="add-student-card">
-                    <h5>Add New Student</h5>
-                    <p class="text-muted mb-3">Register new students to the system</p>
-                    <button class="btn btn-add" data-bs-toggle="modal" data-bs-target="#addStudentModal">+ Add
-                        Student</button>
+                    <div class="add-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h5 style="font-weight: 700; color: #2d3748; margin-bottom: 10px;">Add New Student</h5>
+                    <p class="text-muted mb-3" style="font-size: 0.9rem;">Register new students to the system</p>
+                    <button class="btn btn-add" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+                        <i class="fas fa-plus"></i> Add Student
+                    </button>
                 </div>
             </div>
         </div>
@@ -242,8 +373,9 @@
                             <div class="list-group-item border-0 text-muted">No recent modules.</div>
                         @endforelse
                     </div>
-                    <a href="{{ route('manager.modules') }}" class="btn btn-outline-primary btn-sm mt-3 w-100">View
-                        All</a>
+                    <a href="{{ route('manager.modules') }}" class="btn btn-outline-primary btn-sm mt-3 w-100">
+                        <i class="fas fa-arrow-right"></i> View All
+                    </a>
                 </div>
             </div>
 
@@ -260,8 +392,9 @@
                             <div class="list-group-item border-0 text-muted">No recent students.</div>
                         @endforelse
                     </div>
-                    <a href="{{ route('manager.students') }}" class="btn btn-outline-primary btn-sm mt-3 w-100">View
-                        All</a>
+                    <a href="{{ route('manager.students') }}" class="btn btn-outline-primary btn-sm mt-3 w-100">
+                        <i class="fas fa-arrow-right"></i> View All
+                    </a>
                 </div>
             </div>
         </div>

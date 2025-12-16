@@ -6,23 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Students Management</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
+            background-color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
             min-height: 100vh;
         }
 
         .sidebar {
-            background: #2c3e50;
-            color: white;
+            background: #ffffff;
+            color: #2d3748;
             min-height: 100vh;
             position: fixed;
             width: 250px;
             padding: 20px;
             left: 0;
+            border-right: 2px dotted #cbd5e0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
         }
 
         .main-content {
@@ -33,16 +42,19 @@
 
         .navbar {
             background: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 15px 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            padding: 20px 30px;
+            margin-bottom: 30px;
         }
 
         .content-card {
             background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
             margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
         }
 
         .sidebar a.nav-item {
@@ -50,17 +62,22 @@
             padding: 12px 15px;
             border-radius: 5px;
             margin-bottom: 5px;
-            color: white;
+            color: #4a5568;
             text-decoration: none;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            border: 1px dotted transparent;
         }
 
         .sidebar a.nav-item:hover {
-            background: #34495e;
+            background: #f7fafc;
+            color: #2d3748;
+            border-color: #cbd5e0;
         }
 
         .sidebar a.nav-item.active {
-            background: #3498db;
+            background: #edf2f7;
+            color: #2d3748;
+            border: 1px dotted #3498db;
         }
 
         .logo {
@@ -69,33 +86,175 @@
         }
 
         .btn-add {
-            background: #28a745;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
+            padding: 14px 28px;
+            border-radius: 12px;
             font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
         }
 
         .btn-logout {
-            background: #dc3545;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
             border: none;
-            padding: 8px 20px;
-            border-radius: 6px;
+            padding: 10px 20px;
+            border-radius: 25px;
             font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-logout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
         }
 
         .user-info {
-            background: #e9ecef;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: 500;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
-        .table th {
-            background: #f8f9fa;
-            border-top: none;
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .student-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #e2e8f0;
+        }
+
+        .student-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .student-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px dotted #e2e8f0;
+        }
+
+        .student-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .student-info h6 {
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .student-info small {
+            color: #718096;
+            font-size: 0.85rem;
+        }
+
+        .student-details {
+            margin-bottom: 20px;
+        }
+
+        .student-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+
+        .student-detail-item i {
+            color: #667eea;
+            width: 20px;
+        }
+
+        .student-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-action-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-action-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-action-success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-action-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+        }
+
+        .btn-action-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-action-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
         }
 
         .drag-drop-area {
@@ -148,12 +307,18 @@
                 <small class="text-muted">{{ date('F d, Y') }}</small>
             </div>
             <div class="d-flex align-items-center">
-                <span class="user-info me-3">{{ auth()->user()->name ?? 'User' }}</span>
+                <span class="user-info me-3">
+                    <i class="fas fa-user"></i> {{ auth()->user()->name ?? 'User' }}
+                </span>
                 <button class="btn btn-outline-secondary btn-sm me-2" data-bs-toggle="modal"
-                    data-bs-target="#changePasswordModal">Change Password</button>
+                    data-bs-target="#changePasswordModal" style="border-radius: 12px; font-weight: 600;">
+                    <i class="fas fa-key"></i> Change Password
+                </button>
                 <form method="POST" action="{{ route('logout') }}" style="display:inline">
                     @csrf
-                    <button type="submit" class="btn btn-logout">🚪 Logout</button>
+                    <button type="submit" class="btn btn-logout">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
                 </form>
             </div>
         </div>
@@ -162,8 +327,9 @@
         <div class="content-card mt-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h5 class="mb-0">Students List ({{ $students->count() ?? 0 }})</h5>
-                <button class="btn btn-add" data-bs-toggle="modal" data-bs-target="#addStudentModal">+ Add
-                    Student</button>
+                <button class="btn btn-add" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+                    <i class="fas fa-user-plus"></i> Add Student
+                </button>
             </div>
 
             <!-- Search Bar -->

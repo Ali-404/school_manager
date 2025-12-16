@@ -7,26 +7,35 @@
     <title>Modules Management</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --sidebar-bg: #223344;
+            --sidebar-bg: #ffffff;
             --accent: #2ea44f;
             --muted: #6c757d
         }
 
         body {
-            background: #f5f7fa;
-            font-family: Inter, Arial, sans-serif;
+            background: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0
         }
 
         .sidebar {
-            background: var(--sidebar-bg);
-            color: #fff;
+            background: #ffffff;
+            color: #2d3748;
             position: fixed;
             width: 220px;
             min-height: 100vh;
-            padding: 22px
+            padding: 22px;
+            border-right: 2px dotted #cbd5e0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
         }
 
         .sidebar .logo {
@@ -40,14 +49,23 @@
             gap: 10px;
             padding: 12px;
             border-radius: 8px;
-            color: #cfe6ff;
+            color: #4a5568;
             text-decoration: none;
-            margin-bottom: 6px
+            margin-bottom: 6px;
+            border: 1px dotted transparent;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a.nav-item:hover {
+            background: #f7fafc;
+            color: #2d3748;
+            border-color: #cbd5e0;
         }
 
         .sidebar a.nav-item.active {
-            background: #2f88c6;
-            color: #fff
+            background: #edf2f7;
+            color: #2d3748;
+            border: 1px dotted #2f88c6;
         }
 
         .main-content {
@@ -57,12 +75,13 @@
 
         .top-card {
             background: #fff;
-            border-radius: 10px;
-            padding: 18px 22px;
+            border-radius: 16px;
+            padding: 20px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06)
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            margin-bottom: 30px;
         }
 
         .search-input {
@@ -72,23 +91,26 @@
         }
 
         .modules-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 22px;
-            margin-top: 18px;
-            align-items: flex-start;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
         }
 
         .module-card {
-            width: 300px;
-            min-height: 330px;
-            border-radius: 12px;
-            padding: 18px;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 6px 14px rgba(16, 24, 40, 0.04);
+            background: white;
+            border-radius: 20px;
+            padding: 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
             position: relative;
-            display: flex;
-            flex-direction: column;
+            border: 1px solid #e2e8f0;
+        }
+
+        .module-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
         }
 
         .module-left-pill {
@@ -135,36 +157,153 @@
             margin-top: auto;
         }
 
+        .module-header {
+            padding: 25px;
+            position: relative;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .module-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .module-info {
+            flex: 1;
+        }
+
+        .module-body {
+            padding: 0 25px 25px 25px;
+        }
+
+        .module-action {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            color: white;
+            margin-bottom: 10px;
+        }
+
         .btn-outline-open {
-            border: 2px solid var(--accent);
-            color: var(--accent);
-            border-radius: 10px;
-            padding: 8px 14px;
-            background: #fff;
+            background: linear-gradient(135deg, var(--accent) 0%, #20c997 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(46, 164, 79, 0.3);
+        }
+
+        .btn-outline-open:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(46, 164, 79, 0.4);
         }
 
         .btn-outline-edit {
-            border: 2px solid #0d6efd;
-            color: #0d6efd;
-            border-radius: 10px;
-            padding: 8px 14px;
-            background: #fff;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-outline-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
         .btn-outline-delete {
-            border: 2px solid #dc3545;
-            color: #dc3545;
-            border-radius: 10px;
-            padding: 8px 14px;
-            background: #fff;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-outline-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .module-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .module-stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            background: #f7fafc;
+            border-radius: 12px;
+        }
+
+        .stat-item strong {
+            display: block;
+            font-size: 1.3rem;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+
+        .stat-item small {
+            color: #718096;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .module-description {
+            color: #4a5568;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            min-height: 40px;
+        }
+
+        .module-code {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .module-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 5px;
+            line-height: 1.3;
         }
 
         .module-date {
-            position: absolute;
-            right: 14px;
-            top: 12px;
-            color: var(--muted);
-            font-size: 12px;
+            font-size: 0.85rem;
+            color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .fab {
@@ -206,13 +345,17 @@
                 <small class="text-muted">{{ date('F d, Y') }}</small>
             </div>
             <div class="d-flex align-items-center gap-3">
-                <div class="user-info" style="background:#eef3f8;padding:8px 12px;border-radius:20px">
-                    {{ auth()->user()->name ?? 'User' }}
+                <div class="user-info" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding:10px 20px;border-radius:25px; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
+                    <i class="fas fa-user"></i> {{ auth()->user()->name ?? 'User' }}
                 </div>
                 <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal"
-                    data-bs-target="#changePasswordModal">Change Password</button>
+                    data-bs-target="#changePasswordModal" style="border-radius: 12px; font-weight: 600;">
+                    <i class="fas fa-key"></i> Change Password
+                </button>
                 <form method="POST" action="{{ route('logout') }}" style="display:inline">@csrf<button type="submit"
-                        class="btn btn-sm btn-danger">Logout</button></form>
+                        class="btn btn-sm" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; border-radius: 25px; font-weight: 600; padding: 10px 20px; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button></form>
             </div>
         </div>
 
@@ -221,8 +364,10 @@
                 <h5 class="mb-0">Modules ({{ $modules->count() ?? 0 }})</h5>
                 <small class="text-muted">Manage your course modules</small>
             </div>
-            <button class="btn btn-success" style="border-radius:8px;padding:8px 14px" data-bs-toggle="modal"
-                data-bs-target="#addModuleModal">+ Add Module</button>
+            <button class="btn btn-success" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); border: none; border-radius:12px;padding:12px 24px; font-weight: 700; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);" data-bs-toggle="modal"
+                data-bs-target="#addModuleModal">
+                <i class="fas fa-plus"></i> Add Module
+            </button>
         </div>
 
         <div class="mt-3">
@@ -241,42 +386,63 @@
                     $textColor = $luminance > 0.6 ? '#000' : '#fff';
                 @endphp
 
-                <div class="module-card" style="background: {{ $bg }}22;">
-                    <div class="module-left-pill" style="background:{{ $bg }};">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M12 2C8.13 2 5 5.13 5 9V15C5 18.87 8.13 22 12 22C15.87 22 19 18.87 19 15V9C19 5.13 15.87 2 12 2Z"
-                                fill="{{ $textColor }}" />
-                        </svg>
-                    </div>
-                    <div class="module-date">{{ $module->created_at->format('M d, Y') }}</div>
-                    <div class="module-title">{{ strtoupper($module->name) }}</div>
-                    <div class="module-code" style="background:{{ $bg }};color:{{ $textColor }}">{{ $module->code }}</div>
-
-                    <div style="margin-top:12px;">
-                        <span class="stat-chip"><strong style="color:#dc3545">50</strong><br><small
-                                style="color:var(--muted)">Hours</small></span>
-                        <span class="stat-chip"><strong style="color:#0d6efd">10</strong><br><small
-                                style="color:var(--muted)">Assignments</small></span>
-                    </div>
-
-                    @if($module->picture)
-                        <div style="margin-top:12px;">
-                            <img src="{{ asset('storage/' . $module->picture) }}" alt="{{ $module->name }}"
-                                style="width:100%;height:120px;object-fit:cover;border-radius:8px;">
+                <div class="module-card">
+                    <div class="module-header" style="background: linear-gradient(135deg, {{ $bg }} 0%, {{ $bg }}dd 100%);">
+                        <div class="module-icon-wrapper" style="background: rgba(255, 255, 255, 0.2); color: {{ $textColor }};">
+                            <i class="fas fa-book-open"></i>
                         </div>
-                    @endif
+                        <div class="module-info">
+                            <div class="module-code" style="background: rgba(255, 255, 255, 0.25); color: {{ $textColor }};">
+                                {{ $module->code }}
+                            </div>
+                            <div class="module-title" style="color: {{ $textColor }};">
+                                {{ $module->name }}
+                            </div>
+                            <div class="module-date" style="color: {{ $textColor }}dd;">
+                                <i class="far fa-calendar-alt"></i>
+                                {{ $module->created_at->format('M d, Y') }}
+                            </div>
+                        </div>
+                    </div>
 
-                    <div class="action-group">
-                        <a href="{{ route("manager.modules.attachments.index", $module->id) }}               " class="btn-outline-open">Open</a>
-                        <button class="btn-outline-edit"
+                    <div class="module-body">
+                        @if($module->picture)
+                            <img src="{{ asset('storage/' . $module->picture) }}" alt="{{ $module->name }}" class="module-image">
+                        @endif
+
+                        @if($module->description)
+                            <div class="module-description">
+                                {{ \Illuminate\Support\Str::limit($module->description, 100) }}
+                            </div>
+                        @endif
+
+                        <div class="module-stats">
+                            <div class="stat-item">
+                                <strong style="color: {{ $bg }};">{{ $module->attachments()->count() }}</strong>
+                                <small>Attachments</small>
+                            </div>
+                            <div class="stat-item">
+                                <strong style="color: {{ $bg }};">Active</strong>
+                                <small>Status</small>
+                            </div>
+                        </div>
+
+                        <a href="{{ route('manager.modules.attachments.index', $module->id) }}" 
+                           class="module-action btn-outline-open">
+                            <i class="fas fa-folder-open"></i> View Attachments
+                        </a>
+                        <button class="module-action btn-outline-edit"
                             onclick="editModule({{ $module->id }}, '{{ addslashes($module->name) }}', '{{ addslashes($module->code) }}', '{{ addslashes($module->description) }}', '{{ $module->color }}', '{{ $module->picture }}')"
-                            data-bs-toggle="modal" data-bs-target="#editModuleModal">Edit</button>
-                        <form action="{{ route('modules.destroy', $module) }}" method="POST" style="display:inline-block">
+                            data-bs-toggle="modal" data-bs-target="#editModuleModal">
+                            <i class="fas fa-edit"></i> Edit Module
+                        </button>
+                        <form action="{{ route('modules.destroy', $module) }}" method="POST" style="display:block;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn-outline-delete"
-                                onclick="return confirm('Delete module: {{ $module->name }}?')">Delete</button>
+                            <button type="submit" class="module-action btn-outline-delete w-100"
+                                onclick="return confirm('Delete module: {{ $module->name }}?')">
+                                <i class="fas fa-trash"></i> Delete Module
+                            </button>
                         </form>
                     </div>
                 </div>
